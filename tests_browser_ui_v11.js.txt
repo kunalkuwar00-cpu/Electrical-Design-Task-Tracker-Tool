@@ -1,0 +1,31 @@
+const chromium=require('@sparticuz/chromium').default||require('@sparticuz/chromium');const pp=require('puppeteer-core');const R=[],ok=(n,c)=>R.push((c?'PASS ':'FAIL ')+n);
+(async()=>{const exe=await chromium.executablePath();const b=await pp.launch({executablePath:exe,args:[...chromium.args,'--no-sandbox'],headless:'shell'});
+const pg=await b.newPage();await pg.setViewport({width:1500,height:900});const errs=[];pg.on('pageerror',e=>errs.push(e.message));pg.on('dialog',d=>d.accept());
+await pg.goto('file://'+process.argv[2]);const E=(f,a)=>pg.evaluate(f,a),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+ok('opens on login screen (not logged in)',await E(()=>!document.getElementById('twLogin').hidden));
+ok('default is black theme + green accent',await E(()=>document.documentElement.dataset.theme==='dark'&&WS.accent==='#3ecf8e'));
+// real UI login
+await pg.type('#twLid','kunal.kuwar');await pg.type('#twLpw, input[type=password]','Welcome@123');await pg.keyboard.press('Enter');await sleep(400);
+ok('first login asks to change password',await E(()=>!!document.querySelector('.tw-modal')||!document.getElementById('twLogin').hidden));
+await E(()=>{db.users['kunal.kuwar'].mustChange=false;document.querySelector('.tw-modal')?.remove();TW.me='kunal.kuwar';twEnter()});await sleep(200);
+ok('top bar + icon rail rendered',await E(()=>!!document.querySelector('#twTop .sb-crumb')&&document.querySelectorAll('.sb-rail button[data-twgo]').length>=10));
+ok('admin sees Team & Backup in rail',await E(()=>!!document.querySelector('.sb-rail [data-twgo=team]')&&!!document.querySelector('.sb-rail [data-twgo=backup]')));
+const tip=await E(()=>getComputedStyle(document.querySelector('.sb-rail [data-twgo=tasks]'),'::after').content);ok('tooltip text defined ('+tip.slice(0,40)+')',/Task Management/.test(tip)&&/G then T/.test(tip));
+await pg.click('.sb-rail [data-twgo=workload]');await sleep(200);ok('rail click opens Workload',await E(()=>TW.tab==='workload'&&!document.getElementById('workload').classList.contains('hidden')));
+ok('breadcrumb shows current page',await E(()=>/Workload/.test(document.getElementById('sbPage').textContent)));
+// shortcuts
+await pg.keyboard.press('g');await pg.keyboard.press('t');await sleep(200);ok('G then T opens Task Management',await E(()=>TW.tab==='tasks'));
+await pg.keyboard.press('g');await pg.keyboard.press('d');await sleep(150);ok('G then D opens Dashboard',await E(()=>TW.tab==='dashboard'));
+// palette
+await pg.keyboard.down('Control');await pg.keyboard.press('k');await pg.keyboard.up('Control');await sleep(200);ok('Ctrl+K opens search palette',await E(()=>!!document.getElementById('sbPal')));
+await pg.keyboard.type('workl');await sleep(150);await pg.keyboard.press('Enter');await sleep(250);ok('palette: type + Enter jumps to Workload',await E(()=>TW.tab==='workload'&&!document.getElementById('sbPal')));
+await pg.click('#sbSearch');await sleep(100);await pg.keyboard.press('Escape');await sleep(100);ok('Esc closes palette',await E(()=>!document.getElementById('sbPal')));
+// expand rail
+await pg.click('#sbCollapse');await sleep(250);ok('expand rail shows labels',await E(()=>document.body.classList.contains('sb-open')&&getComputedStyle(document.querySelector('.sb-rail button span')).display!=='none'));await pg.screenshot({path:'/home/claude/shot/e11_expanded.png'});await pg.click('#sbCollapse');
+// theme toggle
+await pg.click('#sbTheme');await sleep(200);ok('theme button switches to white',await E(()=>document.documentElement.dataset.theme==='light'&&getComputedStyle(document.body).backgroundColor==='rgb(250, 250, 250)'));await pg.click('#sbTheme');await sleep(150);
+// avatar menu
+await pg.click('#twAv');await sleep(150);ok('avatar menu has profile/password/logout',await E(()=>!!document.getElementById('sbProf')&&!!document.getElementById('sbPw')&&!!document.getElementById('sbOut')));
+await pg.screenshot({path:'/home/claude/shot/e11_menu.png'});
+await pg.click('#sbOut');await sleep(250);ok('log out returns to login',await E(()=>!document.getElementById('twLogin').hidden&&!document.querySelector('.sb-rail')?.children.length));
+ok('no page errors',errs.length===0);console.log(R.join('\n'));if(errs.length)console.log(errs);await b.close()})().catch(e=>console.log('ERR',e.message.slice(0,400)));
