@@ -1381,7 +1381,10 @@ document.addEventListener('click',e=>{if(SB.menu&&!e.target.closest('.sb-acct'))
 */
 const EDPT_SUPABASE_URL = 'https://ktdlxpehslmprfphhnpx.supabase.co';
 const EDPT_SUPABASE_ANON_KEY = 'sb_publishable_smU7M2dRCaAbVHoxWlVJhw_9C62PhpY';
-const EDPT_LOGIN_EMAILS = { 'kunal.kuwar': 'kunalkuwar@ad.com' };
+const EDPT_LOGIN_EMAILS = {
+  'kunal.kuwar': 'kunalkuwar@ad.com',
+  'mayank.goil': 'mayank.goil@users.edpt.invalid'
+};
 const EDPT_SB = window.supabase.createClient(EDPT_SUPABASE_URL, EDPT_SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
 });
