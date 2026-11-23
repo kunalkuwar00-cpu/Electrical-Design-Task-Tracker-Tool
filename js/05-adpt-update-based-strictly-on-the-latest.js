@@ -48,6 +48,8 @@
   }
   window.edptUserOverride=(id,module)=>{acInit();return acUserOverride(id,module);};
   function acCan(module,action,user){
+    /* v36: permissions come from Supabase (see 39-supabase-permissions.js) */
+    if(typeof window.edptPermissionFromSupabase==='function'){ const r=window.edptPermissionFromSupabase(module,action,user); if(r!==undefined) return r; }
     user=user||twU(); if(!user)return false; if(user.admin)return true;
     acInit();
     const id=TW.me, act=(window.edptIsCommon&&window.edptIsCommon(id)&&typeof window.edptActor==='function')?window.edptActor():'';

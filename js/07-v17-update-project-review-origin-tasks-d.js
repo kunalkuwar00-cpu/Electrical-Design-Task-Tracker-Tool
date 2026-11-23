@@ -9,7 +9,7 @@
   window.twUpdateProjectReviewDaily=function(id){
     const t=(db.daily||[]).find(x=>x.id===id);
     if(!t)return toast('Task not found.');
-    const can=window.edptCan;
+    const can=function(){ return window.edptCan.apply(this,arguments); };   /* v36: always use the latest permission check */
     if(typeof can==='function' && !can('Project Review','Update') && !can('Project Review','Edit'))
       return toast('You do not have permission to update Project Review tasks.');
     const done=t.closedAt?twIso(new Date(t.closedAt)):twToday();
