@@ -21,7 +21,16 @@
     'prashant.gunjal': 'prashant.gunjal@task.com',
     'sakshi.shelar': 'sakshi.shelar@task.com',
     'shreyas.avhad': 'shreyas.avhad@task.com',
-    'tanmay.shinde.2': 'tanmay.shinde@task.com'
+    'tanmay.shinde.2': 'tanmay.shinde@task.com',
+    'avanti.ujgare': 'avanti.ujgare@task.com',
+    'durgesh.deore': 'durgesh.deore@task.com',
+    'gaurav.sonawane': 'gaurav.sonawane@task.com',
+    'ishwar.navle': 'ishwar.navle@task.com',
+    'krishna.borse': 'krishna.borse@task.com',
+    'rohit.jadhav': 'rohit.jadhav@task.com',
+    'sachinkumar.bhosale': 'sachin.bhosal@task.com',
+    'swapnil.kamble': 'swapnil.kamble@task.com',
+    'vaibhav.nerve': 'vaibhav.nerve@task.com'
   };
   window.EDPT_ALIAS_TO_PROFILE = aliases;
   const aliasIds = new Set(Object.keys(aliases));
