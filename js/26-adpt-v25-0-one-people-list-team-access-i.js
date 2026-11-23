@@ -148,7 +148,7 @@
     if(!ACTIVE) return true;
     if(isRemoved(k,u)) return false;
     if(sharedSet().has(norm(k))) return false;                 // the common login is an account, not a person
-    if(Object.prototype.hasOwnProperty.call(TM(),k)) return true; // team member (no own login)
+    /* v36.1: people come only from active Supabase accounts (edpt_profiles); old common-login members are no longer listed */
     return ACTIVE.has(norm(k));
   }
   function loginAllowed(k,u){ return !isRemoved(k,u) && (!ACTIVE || ACTIVE.has(norm(k))); }

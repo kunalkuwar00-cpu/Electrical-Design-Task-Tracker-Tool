@@ -12,7 +12,16 @@
     'poonam.patole': 'poonam.patole@task.com',
     'sanag.sonjay': 'sagar.sonjay@task.com',
     'summit.kurade': 'sumeet.kurhade@task.com',
-    'vikee.wagh': 'vikee.wagh@task.com'
+    'vikee.wagh': 'vikee.wagh@task.com',
+    /* v36.1: old common-login entries now linked to their own logins (no duplicates, old tasks follow the person) */
+    'akhil.dukre': 'akhil.dukare@task.com',
+    'atharva.kasar': 'atharva.kasar@task.com',
+    'gaurav.umbarkar': 'gaurav.umbarkar@task.com',
+    'karan.khairnar': 'karan.khairnar@task.com',
+    'prashant.gunjal': 'prashant.gunjal@task.com',
+    'sakshi.shelar': 'sakshi.shelar@task.com',
+    'shreyas.avhad': 'shreyas.avhad@task.com',
+    'tanmay.shinde.2': 'tanmay.shinde@task.com'
   };
   window.EDPT_ALIAS_TO_PROFILE = aliases;
   const aliasIds = new Set(Object.keys(aliases));
