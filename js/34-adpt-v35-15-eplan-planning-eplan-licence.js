@@ -211,7 +211,7 @@
     const body=`<div class="ep-grid">
       <div class="tw-f"><label>Project code *</label><input name="code" list="epCodes" value="${E(r.code||'')}" placeholder="e.g. A1625 or A1604-field"><datalist id="epCodes">${codes}</datalist></div>
       <div class="tw-f"><label>Customer</label><input name="customer" value="${E(r.customer||'')}"></div>
-      <div class="tw-f"><label>Segment</label><input name="segment" list="epSegs" value="${E(r.segment||'')}"><datalist id="epSegs">${['ASRS','SLITROLL','CARTON','ECOMMERCE','PALLET','ROBOT','AMR','Other'].map(s=>`<option value="${s}">`).join('')}</datalist></div>
+      <div class="tw-f"><label>Segment</label><input name="segment" list="epSegs" value="${E(r.segment||'')}"><datalist id="epSegs">${['ASRS','Tote & Carton','Slit Roll','Robotics & Palletizer'].map(s=>`<option value="${s}">`).join('')}</datalist></div>
       <div class="tw-f"><label>No. of panels</label><input name="panels" value="${E(r.panels||'')}" placeholder="e.g. 5 CP + 2 VRC"></div>
       <div class="tw-f"><label>Resource</label><input name="resource" list="epNames" value="${E(r.resource||'')}" placeholder="One or more names"><datalist id="epNames">${names.map(n=>`<option value="${E(n)}">`).join('')}</datalist></div>
       <div class="tw-f"><label>Licence no.</label><select name="lic"><option value="">— none —</option>${S.licenses.map(l=>`<option value="${E(l.no)}" ${String(r.lic||'')===String(l.no)?'selected':''}>${E(l.no)} · ${E(l.type)}</option>`).join('')}</select></div></div>

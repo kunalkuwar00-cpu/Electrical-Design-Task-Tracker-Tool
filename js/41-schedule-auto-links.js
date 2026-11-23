@@ -113,6 +113,21 @@
     lkClose(); const n=autoSchedule(p); finish(p,n); if(!n) toast('Links saved');
   };
 
+  /* "Linked From" box typed in the schedule (e.g. "3, 5"): no pop-ups, the task is placed automatically */
+  window.edptSetLinksTyped=function(tid,sid,text,el){
+    try{
+      const p=lkP(), id=sid||tid, R=lkRecs(p), rec=R.find(r=>r.id===id); if(!rec) return;
+      const nums=lkNums(p), byNum={}; Object.entries(nums).forEach(([k,n])=>{ byNum[String(n)]=k; });
+      const parts=String(text||'').split(/[,;\s]+/).map(x=>x.replace(/^#/,'').trim()).filter(Boolean);
+      const bad=lkDesc(p,id), ids=[], errs=[];
+      parts.forEach(n=>{ const k=byNum[n]; if(!/^\d+$/.test(n)||!k) errs.push(`#${n} does not exist`); else if(k===id) errs.push(`#${n} is this sub milestone itself`); else if(bad.has(k)) errs.push(`#${n} is linked after this one, so it would create a loop`); else if(!ids.includes(k)) ids.push(k); });
+      if(errs.length){ alert('Linked From not saved for #'+nums[id]+' '+rec.name+':\n\n• '+errs.join('\n• ')+'\n\nUse the numbers shown in the No. column, separated by commas.'); if(el) el.value=(rec.o.links||[]).map(x=>nums[x]).filter(Boolean).join(', '); return; }
+      if(JSON.stringify([...(rec.o.links||[])].sort())===JSON.stringify([...ids].sort())) return;
+      rec.o.links=ids;
+      finish(p,autoSchedule(p));
+    }catch(e){ console.error(e); alert('Could not save the links: '+e.message); }
+  };
+
   /* "Move by N working days" button: no reason pop-up */
   const sh0=window.lkShiftTask;
   if(typeof sh0==='function') window.lkShiftTask=function(pid,id,n,reason){

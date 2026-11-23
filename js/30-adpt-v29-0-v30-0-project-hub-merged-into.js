@@ -97,6 +97,12 @@
   /* ---------- data ---------- */
   function store(){ db.qms ||= {}; KEYS.forEach(k=>{ if(!Array.isArray(db.qms[k])) db.qms[k]=[]; }); return db.qms; }
   const projects=()=>(db.projects||[]).filter(p=>String(p.code||'').trim()).sort((a,b)=>String(a.code).localeCompare(String(b.code),undefined,{numeric:true}));
+  /* v38: Dashboard — choose which projects are included (saved per browser) */
+  const DSEL_KEY='edptDashSel';
+  const dsGet=()=>{ try{ const v=JSON.parse(localStorage.getItem(DSEL_KEY)||'null'); return v&&typeof v==='object'?{seg:v.seg||'',off:Array.isArray(v.off)?v.off:[]}:{seg:'',off:[]}; }catch(e){ return {seg:'',off:[]}; } };
+  const dsPut=v=>{ try{ localStorage.setItem(DSEL_KEY,JSON.stringify(v)); }catch(e){} };
+  const dashOn=p=>{ if(!p) return true; const s=dsGet(); if(s.seg&&String(p.segment||'').trim()!==s.seg) return false; return !s.off.includes(p.id); };
+  const dashProjects=()=>projects().filter(dashOn);
   const projByCode=c=>{ const k=key(String(c||'').split(/\s+[—-]\s+/)[0]); return k?projects().find(p=>key(p.code)===k):null; };
   const projOf=r=>(r.projectId&&(db.projects||[]).find(p=>p.id===r.projectId))||projByCode(r.projectCode);
   const codeOf=r=>{ const p=projOf(r); return p?p.code:(r.projectCode||''); };
@@ -394,7 +400,7 @@
   const unplannedOf=pid=>{ try{ if(!ACT) ACT=window.edptActivityRows?window.edptActivityRows():[]; return ACT.filter(r=>r.kind==='unplanned'&&r.project&&(!pid||r.project.id===pid)); }catch(e){ return []; } };
   function inPeriod(d){ const R=period(); return !(R.a>'0000-01-01'||R.b<'9999-12-31')||(d&&d>=R.a&&d<=R.b); }
   function sums(pid){
-    const L=k=>list(k,{proj:pid,q:''});
+    const L=k=>list(k,{proj:pid,q:''}).filter(r=>pid||dashOn(projOf(r)));
     const cn=L('cn'), si=L('si'), rca=L('rca'), copq=L('copq'), cs=L('cs'), gp=L('gp');
     const un=unplannedOf(pid).filter(r=>inPeriod(r.start));
     return {cn,si,rca,copq,cs,gp,un,
@@ -429,7 +435,7 @@
       prog:items.length?Math.round(items.reduce((a,x)=>a+(x.progress||0),0)/items.length):0};
   }
   function unplStats(pid){
-    const l=(db.unplanned||[]).filter(e=>(!pid||e.projectId===pid)&&inPer(e.date)), h=l.reduce((n,e)=>n+(Number(e.hours)||0),0), lost=l.reduce((n,e)=>n+(Number(e.lost)||0),0);
+    const l=(db.unplanned||[]).filter(e=>(pid?e.projectId===pid:dashOn((db.projects||[]).find(p=>p.id===e.projectId)))&&inPer(e.date)), h=l.reduce((n,e)=>n+(Number(e.hours)||0),0), lost=l.reduce((n,e)=>n+(Number(e.lost)||0),0);
     return {n:l.length,h,days:h/8,lost};
   }
   const r1=v=>Math.round(v*10)/10;
@@ -442,7 +448,7 @@
       const G=projGroups(ps), line=k=>{ const g=G.find(x=>x.k===k); return [(H.sf===k?'▸ ':'')+g.l,g.n,g.c,`QM.grp('${k}')`]; };
       cards.push(kcard('Projects',ps.length,G.filter(g=>g.always||g.n).map(g=>line(g.k)),'','wide qm-pk')); }
     cards.push(kcard('Sub milestones',`${st.n}<small>${st.prog}% complete</small>`,[['Completed',st.done,'#1f9d61'],['In progress',st.ip,'#2563eb'],['Not started / pending',st.ns],['On hold',st.hold,'#b45309'],['Overdue',st.over,st.over?'#e5484d':'',"twGo('daily');setTimeout(()=>document.querySelectorAll('#twDailyList tr.dt-s2')[1]?.scrollIntoView({behavior:'smooth'}),150)"]],seg([[st.done,'#22c55e'],[st.ip,'#28a8f4'],[st.ns,'#9aa8bb'],[st.hold,'#f59e0b']])));
-    cards.push(kcard('Budget',b?inr(b):'<span class="muted">Not set</span>',[['Actual cost',a?inr(a):'—'],['Variance',b||a?inr(v):'—',b||a?(v<0?'#e5484d':'#1f9d61'):''],['Used',b?used+'%':'—',used>100?'#e5484d':'']],b?`<div class="qm-bar"><i style="width:${Math.min(used,100)}%;background:${used>100?'#e5484d':used>85?'#f59e0b':'#1f9d61'}"></i></div>`:''));
+    /* v38: Budget card removed from the dashboard */
     cards.push(kcard('Unplanned work',`${u.n}<small>task${u.n===1?'':'s'}</small>`,[['Hours',r1(u.h)],['Days',r1(u.days)],['Schedule slip',r1(u.lost)+' h',u.lost?'#e5484d':'']],'',''));
     cards.push(kcard('Quality & cost',inr(s.copqC)+'<small>COPQ</small>',[
       ['Change notes',`${s.cn.length}${s.cnCost?' · '+inr(s.cnCost):''}`,REG.cn.color,"QM.set('tab','cn')"],
@@ -470,9 +476,28 @@
   QM.grp=function(k){ H.sf=(H.sf===k?'':k); render(); setTimeout(()=>document.getElementById('qmSum')?.scrollIntoView({behavior:'smooth',block:'start'}),30); };
   QM.stage=v=>{ H.stage=v; window.psListRender(); };
   QM.psq=v=>{ H.sq=v; window.psListRender(); };
+  /* v38: selection bar shown above the dashboard tiles */
+  const SEGMENTS=['ASRS','Tote & Carton','Slit Roll','Robotics & Palletizer'];
+  function dashBar(){
+    const all=projects(), s=dsGet(), segs=[...new Set([...SEGMENTS,...all.map(p=>String(p.segment||'').trim()).filter(Boolean)])];
+    const inSeg=all.filter(p=>!s.seg||String(p.segment||'').trim()===s.seg), on=inSeg.filter(p=>!s.off.includes(p.id)).length;
+    return `<div class="qm-card" id="dashSelBar" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px">
+      <label style="margin:0;font-weight:600">Segment</label>
+      <select style="width:auto;min-width:180px" onchange="QM.dseg(this.value)"><option value="">All segments</option>${segs.map(x=>`<option ${x===s.seg?'selected':''}>${E(x)}</option>`).join('')}</select>
+      <label style="margin:0 0 0 8px;font-weight:600">Projects</label>
+      <button class="small" onclick="QM.dpick()">${on} of ${inSeg.length} selected ▾</button>
+      <button class="small" onclick="QM.dall(true)">Select all</button><button class="small" onclick="QM.dall(false)">Clear all</button>
+      <div id="dashPick" style="display:${QM._dopen?'block':'none'};flex-basis:100%;max-height:260px;overflow:auto;border-top:1px solid rgba(127,127,127,.25);padding-top:8px">
+        ${inSeg.map(p=>`<label style="display:flex;gap:8px;align-items:center;margin:3px 0;font-weight:400"><input type="checkbox" style="width:auto" ${s.off.includes(p.id)?'':'checked'} onchange="QM.dtog('${E(p.id)}',this.checked)"><b>${E(p.code)}</b> ${E(p.name||'')} <span class="muted">${E(p.segment||'')}</span></label>`).join('')||'<span class="muted">No projects in this segment.</span>'}
+      </div></div>`;
+  }
+  QM.dseg=v=>{ const s=dsGet(); s.seg=v||''; dsPut(s); render(); };
+  QM.dtog=(id,on)=>{ const s=dsGet(); s.off=s.off.filter(x=>x!==id); if(!on) s.off.push(id); dsPut(s); render(); };
+  QM.dall=on=>{ const s=dsGet(), ids=projects().filter(p=>!s.seg||String(p.segment||'').trim()===s.seg).map(p=>p.id); s.off=on?s.off.filter(x=>!ids.includes(x)):[...new Set([...s.off,...ids])]; dsPut(s); render(); };
+  QM.dpick=()=>{ QM._dopen=!QM._dopen; render(); };
   function overviewAll(){
-    const ps=projects();
-    return `${kpis(ps,'')}${allSummary()}${orphans()?`<div class="qm-card">${orphans()}</div>`:''}`;
+    const ps=dashProjects();
+    return `${dashBar()}${kpis(ps,'')}${allSummary()}${orphans()?`<div class="qm-card">${orphans()}</div>`:''}`;
   }
   /* one project list (was Project Setup → Project List + the hub table) */
   function projRow(p){
@@ -593,7 +618,7 @@
   const PST={risk:['At risk','#d97706'],ok:['On track','#1f9d61'],unpl:['Delayed — unplanned tasks','#e5484d'],dep:['Delayed — pending dependency','#b45309'],over:['Delayed — overdue sub milestones','#e5484d'],hold:['On hold','#71717a'],closed:['Completed','#1f9d61']};
   QM.sumF=v=>{ H.sf=H.sf===v?'':v; render(); setTimeout(()=>document.getElementById('qmSum')?.scrollIntoView({block:'start'}),0); };
   function allSummary(){
-    const ps=projects(), G=projGroups(ps), g=G.find(x=>x.k===H.sf), list=(g?g.list:ps), info=G[0].info;
+    const ps=dashProjects(), G=projGroups(ps), g=G.find(x=>x.k===H.sf), list=(g?g.list:ps), info=G[0].info;
     const ord=['unpl','dep','over','risk','ok','hold','closed'];
     const rs=list.map(p=>Object.assign({p},info.get(p.id))).sort((a,b)=>ord.indexOf(a.s0)-ord.indexOf(b.s0)||((b.el||0)-b.pr)-((a.el||0)-a.pr));
     const rows=rs.map(r=>{ const behind=r.el!=null&&r.pr+10<r.el, gap=r.el!=null?r.pr-r.el:null, st=PST[r.s0]||PST.ok;
