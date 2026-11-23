@@ -1,0 +1,36 @@
+#twLogin.edpt-welcome{position:fixed;inset:0;z-index:9999;display:block!important;overflow:auto;padding:0!important;background:#f6f7f5!important;color:#0f172a}
+#twLogin.edpt-welcome[hidden]{display:none!important}
+#twLogin .ew-wrap{width:100%!important;max-width:none!important;margin:0!important;min-height:100vh;display:grid;grid-template-columns:minmax(320px,44%) 1fr}
+@media(max-width:880px){#twLogin .ew-wrap{grid-template-columns:1fr}#twLogin .ew-side{min-height:auto;padding:24px 22px 28px}#twLogin .ew-pitch h1{font-size:26px}#twLogin .ew-pitch ul,#twLogin .ew-sidefoot{display:none}}
+#twLogin .ew-side{position:relative;overflow:hidden;min-height:100vh;padding:34px 44px;display:flex;flex-direction:column;color:#ecfdf5;background:linear-gradient(160deg,#0b3b2c 0%,#0f5a40 55%,#167a52 100%)}
+#twLogin .ew-grid{position:absolute;inset:0;opacity:.18;background-image:linear-gradient(#a7f3d0 1px,transparent 1px),linear-gradient(90deg,#a7f3d0 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 75%);mask-image:radial-gradient(circle at 70% 30%,#000 0,transparent 75%)}
+#twLogin .ew-brand{position:relative;display:flex;align-items:center;gap:12px}
+#twLogin .ew-brand b{display:block;font-size:18px;letter-spacing:.06em}#twLogin .ew-brand small{display:block;font-size:12px;opacity:.75}
+#twLogin .ew-mark{display:inline-flex;align-items:center;background:#fff;border-radius:10px;padding:6px 8px;max-width:64px;overflow:hidden}#twLogin .ew-mark img,#twLogin .ew-mark svg{height:24px!important;width:auto!important}
+#twLogin .ew-pitch{position:relative;margin:auto 0}
+#twLogin .ew-pitch h1{font-size:clamp(30px,3.2vw,42px);line-height:1.12;font-weight:700;margin:0 0 14px;color:#fff;letter-spacing:-.02em}
+#twLogin .ew-pitch p{font-size:16px;opacity:.85;margin:0 0 26px;max-width:420px}
+#twLogin .ew-pitch ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+#twLogin .ew-pitch li{display:flex;align-items:center;gap:12px;font-size:15px}
+#twLogin .ew-pitch li span{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.12);font-size:14px}
+#twLogin .ew-sidefoot{position:relative;font-size:12px;opacity:.6;margin:0}
+#twLogin .ew-main{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+#twLogin .ew-card{width:min(420px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.08);padding:34px 34px 26px}
+#twLogin .ew-card h2{font-size:26px;font-weight:700;margin:0 0 4px;color:#0f172a;letter-spacing:-.01em}
+#twLogin .ew-sub{margin:0 0 24px;color:#64748b;font-size:14px}
+#twLogin form{display:flex;flex-direction:column;gap:6px}
+#twLogin .ew-l{font-size:13px;font-weight:600;color:#334155;margin:8px 0 2px}
+#twLogin .ew-row{display:flex;justify-content:space-between;align-items:baseline}
+#twLogin .ew-f{position:relative}
+#twLogin .ew-f input{width:100%;height:44px;border:1px solid #cbd5e1!important;border-radius:10px!important;background:#fff!important;color:#0f172a!important;font-size:15px;padding:0 14px!important;box-shadow:none!important;outline:none}
+#twLogin .ew-f input:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px rgba(22,163,74,.15)!important}
+#twLogin .ew-f input::placeholder{color:#94a3b8}
+#twLogin .ew-pw input{padding-right:46px!important}
+#twLogin .ew-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px!important;height:34px!important;border:0!important;background:transparent!important;color:#64748b!important;display:grid;place-items:center;border-radius:8px!important;padding:0!important;cursor:pointer}
+#twLogin .ew-eye:hover{background:#f1f5f9!important}#twLogin .ew-eye.on{color:#16a34a!important}
+#twLogin .ew-link{color:#15803d;font-weight:600;font-size:13px;text-decoration:none}#twLogin .ew-link:hover{text-decoration:underline}
+#twLogin .ew-err{margin:8px 0 0;font-size:13px;color:#dc2626}#twLogin .ew-err:empty{display:none}#twLogin .ew-err.ew-info{color:#334155;background:#f1f5f9;border-radius:8px;padding:8px 10px}
+#twLogin button.ew-btn{height:46px!important;width:100%;border-radius:10px!important;border:0!important;background:#15803d!important;color:#fff!important;font-size:16px;font-weight:600;margin-top:16px;cursor:pointer}
+#twLogin button.ew-btn:hover{background:#166534!important}#twLogin button.ew-btn:disabled{opacity:.7;cursor:wait}
+#twLogin .ew-note{text-align:center;margin:14px 0 0;font-size:13px;color:#64748b}
+#twLogin .ew-foot{margin-top:18px;color:#94a3b8;font-size:12px}
