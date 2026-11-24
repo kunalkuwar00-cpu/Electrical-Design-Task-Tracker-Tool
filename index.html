@@ -35,78 +35,78 @@
 <section id="daily" class="view hidden"><div class="panel"><div class="toprow"><div><h2>Daily Task</h2><p class="muted" style="margin:0">Every task of every person in one place — Daily Tasks and tasks from Task Management. Everyone can assign a task to anyone and update status or remarks. Only Managers, Team Leaders and AGMs can delete a Daily Task.</p></div><div class="actions" id="twDailyActs"></div></div><div id="twDailyTabs" style="margin:6px 0 14px"></div><div id="twDailyList"></div></div></section>
 <section id="team" class="view hidden"><div class="panel"><div class="toprow"><div><h2>Team &amp; Access <span class="tw-chip" id="twTeamCount"></span></h2><p class="muted" style="margin:0">Logins, access roles, designations and reporting lines. "Task Owner Name" links a login to the owner name used in Task Management.</p></div><div class="actions"><button onclick="twBulkAdd()">Add Several People</button><button class="primary" onclick="twNewUser()">+ Add Person</button></div></div><div class="tablewrap"><table><thead><tr><th>Name</th><th>Login ID</th><th>Access Role</th><th>Designation</th><th>Department</th><th>Reports To</th><th>Task Owner Name</th><th></th></tr></thead><tbody id="twTeamRows"></tbody></table></div><p class="muted" id="twTeamNote"></p></div><div class="panel" id="twNoLogin"></div></section>
 <div class="footer">Local version: data and logins are saved in this browser on this computer. The admin should export a backup regularly. Not connected to a shared company database.</div></div><div id="toast" class="toast"></div>
-<script src="js/00-config.js"></script>
-<script src="js/01-core-app.js"></script>
+<script src="00-config.js"></script>
+<script src="01-core-app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/02-insert-an-unplanned-activity-into-an-exi.js"></script>
-<script src="js/03-adpt-shared-supabase-adapter-for-the-ref.js"></script>
-<script src="js/04-adpt-fix-keep-inserted-unplanned-task-du.js"></script>
+<script src="02-insert-an-unplanned-activity-into-an-exi.js"></script>
+<script src="03-adpt-shared-supabase-adapter-for-the-ref.js"></script>
+<script src="04-adpt-fix-keep-inserted-unplanned-task-du.js"></script>
 
-<script src="js/05-adpt-update-based-strictly-on-the-latest.js"></script>
+<script src="05-adpt-update-based-strictly-on-the-latest.js"></script>
 
-<script src="js/06-user-requested-cleanup-remove-project-li.js"></script>
-
-
-<script src="js/07-v17-update-project-review-origin-tasks-d.js"></script>
+<script src="06-user-requested-cleanup-remove-project-li.js"></script>
 
 
-<script src="js/08-v18-correction-expose-permitted-add-subt.js"></script>
+<script src="07-v17-update-project-review-origin-tasks-d.js"></script>
 
 
-<script src="js/09-v19-insert-subtask-shortcut-choose-the-p.js"></script>
+<script src="08-v18-correction-expose-permitted-add-subt.js"></script>
 
 
-<script src="js/10-adpt-v18-test-patch.js"></script>
+<script src="09-v19-insert-subtask-shortcut-choose-the-p.js"></script>
 
 
-<script src="js/11-adpt-v20-test-patch-persistent-employee-.js"></script>
+<script src="10-adpt-v18-test-patch.js"></script>
 
 
-<script src="js/12-adpt-v21-production-patch.js"></script>
+<script src="11-adpt-v20-test-patch-persistent-employee-.js"></script>
 
 
-<script src="js/13-adpt-v21-2-workload-and-daily-task-peopl.js"></script>
+<script src="12-adpt-v21-production-patch.js"></script>
 
 
-<script src="js/14-adpt-v21-3-robust-removal-matching-for-m.js"></script>
+<script src="13-adpt-v21-2-workload-and-daily-task-peopl.js"></script>
 
 
-<script src="js/15-adpt-v21-4-daily-task-must-use-the-activ.js"></script>
+<script src="14-adpt-v21-3-robust-removal-matching-for-m.js"></script>
 
 
-<script src="js/16-adpt-v21-5-newly-added-team-access-peopl.js"></script>
+<script src="15-adpt-v21-4-daily-task-must-use-the-activ.js"></script>
 
 
-<script src="js/17-v21-6-group-the-reports-to-choices-by-le.js"></script>
-
-<script src="js/18-adpt-v21-7-one-active-employee-roster-fo.js"></script>
-
-<script src="js/19-adpt-v21-8-unified-refresh-for-every-emp.js"></script>
+<script src="16-adpt-v21-5-newly-added-team-access-peopl.js"></script>
 
 
-<script src="js/20-adpt-v21-9-explicit-shared-cloud-refresh.js"></script>
+<script src="17-v21-6-group-the-reports-to-choices-by-le.js"></script>
 
-<script src="js/21-v22-0-task-management-permissions-for-ag.js"></script>
-<script src="js/22-v22-2-one-entry-per-person-in-people-dro.js"></script>
-<script src="js/23-adpt-v23-0-v24-0-capacity-engine-team-ca.js"></script>
-<script src="js/24-adpt-v23-0-resource-planning-screen.js"></script>
-<script src="js/25-adpt-v24-0-team-capacity-replaces-worklo.js"></script>
-<script src="js/26-adpt-v25-0-one-people-list-team-access-i.js"></script>
-<script src="js/27-adpt-v26-0-activity-log-daily-tasks-proj.js"></script>
-<script src="js/28-adpt-v27-1-team-capacity-week-planner.js"></script>
-<script src="js/29-adpt-v28-2-daily-tasks-collapse-expand-e.js"></script>
-<script src="js/30-adpt-v29-0-v30-0-project-hub-merged-into.js"></script>
-<script src="js/31-adpt-v34-0-task-management-milestone-sub.js"></script>
-<script src="js/32-adpt-v35-9-leave-book-leave-show-it-in-t.js"></script>
-<script src="js/33-adpt-v35-5-supabase-connection-status-fi.js"></script>
-<script src="js/34-adpt-v35-15-eplan-planning-eplan-licence.js"></script>
-<script src="js/35-adpt-v35-16-common-login-who-is-working-.js"></script>
-<script src="js/36-adpt-v35-17-admin-controlled-access-per-.js"></script>
-<script src="js/37-adpt-v35-19-safe-saving-for-many-users.js"></script>
-<script src="js/38-adpt-v35-21-test-environment-faster-dail.js"></script>
-<script src="js/39-supabase-permissions.js"></script>
-<script src="js/40-people-from-supabase.js"></script>
-<script src="js/41-schedule-auto-links.js"></script>
-<script src="js/42-segments.js"></script>
-<script src="js/43-multi-user-guard.js"></script>
+<script src="18-adpt-v21-7-one-active-employee-roster-fo.js"></script>
+
+<script src="19-adpt-v21-8-unified-refresh-for-every-emp.js"></script>
+
+
+<script src="20-adpt-v21-9-explicit-shared-cloud-refresh.js"></script>
+
+<script src="21-v22-0-task-management-permissions-for-ag.js"></script>
+<script src="22-v22-2-one-entry-per-person-in-people-dro.js"></script>
+<script src="23-adpt-v23-0-v24-0-capacity-engine-team-ca.js"></script>
+<script src="24-adpt-v23-0-resource-planning-screen.js"></script>
+<script src="25-adpt-v24-0-team-capacity-replaces-worklo.js"></script>
+<script src="26-adpt-v25-0-one-people-list-team-access-i.js"></script>
+<script src="27-adpt-v26-0-activity-log-daily-tasks-proj.js"></script>
+<script src="28-adpt-v27-1-team-capacity-week-planner.js"></script>
+<script src="29-adpt-v28-2-daily-tasks-collapse-expand-e.js"></script>
+<script src="30-adpt-v29-0-v30-0-project-hub-merged-into.js"></script>
+<script src="31-adpt-v34-0-task-management-milestone-sub.js"></script>
+<script src="32-adpt-v35-9-leave-book-leave-show-it-in-t.js"></script>
+<script src="33-adpt-v35-5-supabase-connection-status-fi.js"></script>
+<script src="34-adpt-v35-15-eplan-planning-eplan-licence.js"></script>
+<script src="35-adpt-v35-16-common-login-who-is-working-.js"></script>
+<script src="36-adpt-v35-17-admin-controlled-access-per-.js"></script>
+<script src="37-adpt-v35-19-safe-saving-for-many-users.js"></script>
+<script src="38-adpt-v35-21-test-environment-faster-dail.js"></script>
+<script src="39-supabase-permissions.js"></script>
+<script src="40-people-from-supabase.js"></script>
+<script src="41-schedule-auto-links.js"></script>
+<script src="42-segments.js"></script>
+<script src="43-multi-user-guard.js"></script>
 </body></html>
